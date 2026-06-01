@@ -1,0 +1,102 @@
+0123456789=<_>久坂 悠太郎  様 ````ppp`phisasakaqlu,.wrypoeia-ktnshzxcv;gdmjHISASAKAb かエラー出ちゃった。書き込む先ってこれで合ってる？
+  ⎿  [Image #4]
+  ⎿  [Image #5]
+
+  エラー -36 は macOS あるある
+  で、実は書き込み自体は成功してることが多いです。
+
+  何が起きてるか
+
+  UF2ブートローダーは「ファイル受け取った → flashに焼く →
+  デバイスを再起動して切断」という挙動。最後の「切断」がmacOS Finder
+  からすると「ファイル書き込み中に消えた =
+  エラー」と認識される。だから-36が出る。
+
+  確認方法
+
+  Finderで cornix ドライブを見てください。消えてればOK（=書き込み成功して再
+  起動済み）。残ってたら本当に失敗してます。
+
+  Listed 1 directory (ctrl+o to expand)
+
+⏺ Mountedまま=書き込み失敗してます。リトライ必要。
+
+  Finder経由は -36 でよく失敗します。Terminal の cp
+  コマンドだと回避できることが多い。.uf2ファイルがどこにあるか確認します。
+
+  Searched for 1 pattern (ctrl+o to expand)
+
+⏺ ~/Downloads/firmware/
+  にありました。Finder失敗したやつをTerminalから再書き込みします。
+
+⏺ Bash(cp /Users/user/Downloads/firmware/cornix_left_default_nosd.uf2
+      /Volumes/cornix/ 2>&1; echo "---exit=$?---"; sleep 2; ls /Volumes/
+      2>&1)
+  ⎿  ---exit=0---
+     Brave Browser
+     Homerow
+     Macintosh HD
+
+⏺ 左半分書き込み完了！cornixドライブが消えた=正常に再起動した証拠。
+
+  次は右半分です:
+
+  1. 左半分のUSBを抜く
+  2. 右半分 をUSB接続
+  3. リセットボタン2連打 → cornix ドライブが現れる
+  4. 出てきたら教えてください、Terminal から cp します
+
+  （右側もFinderから入れると同じく -36
+  食らうので、最初からTerminal経由で行きます）
+
+✻ Crunched for 1m 39s
+
+❯ 接続した
+
+  Listed 1 directory (ctrl+o to expand)
+
+⏺ ブートローダードライブ見えてます。右側書き込みます。
+
+⏺ Bash(cp /Users/user/Downloads/firmware/cornix_right_nosd.uf2
+      /Volumes/cornix/ 2>&1; echo "---exit=$?---"; sleep 2; ls /Volumes/
+      2>&1)
+  ⎿  ---exit=0---
+     Brave Browser
+     Homerow
+     Macintosh HD
+
+⏺ 右側も完了。両方とも書き込み成功してます（ドライブが消えた=再起動済み）。
+
+  次: 動作確認
+
+  1. 左半分 をUSBでMacに接続（右側はBLE経由で繋がるので USB は左だけでOK）
+  2. macOS のキーボード入力で確認
+
+  最低限の通電テスト:
+
+  ┌────────────────────────┬───────────────────────────────────────────┐
+  │        試すこと        │                 期待動作                  │
+  ├────────────────────────┼───────────────────────────────────────────┤
+  │ 左半分の Q 位置を押す  │ q が出る（初期OSはWindowsモード=layer 0） │
+  ├────────────────────────┼───────────────────────────────────────────┤
+  │ 左半分の A 位置を押す  │ a が出る                                  │
+  ├────────────────────────┼───────────────────────────────────────────┤
+  │ 右半分 の Y 位置を押す │ y が出る ← BLE通信のテスト                │
+  ├────────────────────────┼───────────────────────────────────────────┤
+  │ 右半分の P 位置を押す  │ p が出る                                  │
+  └────────────────────────┴───────────────────────────────────────────┘
+
+  右側のキーが反応しない場合 → 左右ペアリングがまだの可能性。左右を手の届く
+  距離に置いて10秒ほど待つと自動でつながります。
+
+  最初の動作どうですか？
+
+✻ Sautéed for 41s
+
+  7 tasks (5 done, 1 in progress, 1 open)
+  ◼ Cornix左右に書き込み & 動作確認
+  ◻ Phase 2: Option+Tab sticky のカスタムbehavior実装（C/Zephyr）
+  ✔ RMKリポジトリのfork & ローカルclone
+  ✔ Rustツールチェーンと依存ツールのインストール
+  ✔ hitsmaxft/zmk-keyboard-cornix を fork & clone
+[[[]@\]*(.#*&   … +2 completed
