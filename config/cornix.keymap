@@ -86,10 +86,22 @@
         /* Ctrl+Q -> Ctrl+Q ;  Ctrl+Shift+Q -> Alt+F4
          * outer: Ctrl detect / inner: Shift detect
          */
+        /* Alt+F4 を「Ctrlを剥がして」送るための strip-morph。
+         * ネストした mod-morph では外側(Ctrl)のmodが消費されず漏れて
+         * Ctrl+Alt+F4 になってしまうため、ここで Ctrl を確実に除去する。
+         * 両bindingとも LA(F4) だが、Ctrl保持時はmorph側(右)が発動し、
+         * keep-mods=0(既定)によりトリガmod=Ctrlがマスクされる。
+         */
+        af4_noctrl: af4_noctrl {
+            compatible = "zmk,behavior-mod-morph";
+            #binding-cells = <0>;
+            bindings = <&kp LA(F4)>, <&kp LA(F4)>;
+            mods = <(MOD_LCTL|MOD_RCTL)>;
+        };
         mm_win_q_inner: mm_win_q_inner {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp LC(Q)>, <&kp LA(F4)>;
+            bindings = <&kp LC(Q)>, <&af4_noctrl>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
         mm_win_q: mm_win_q {
