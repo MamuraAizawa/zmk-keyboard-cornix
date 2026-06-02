@@ -24,6 +24,10 @@
 #include <dt-bindings/zmk/keys.h>
 
 #define ZMK_POINTING_DEFAULT_MOVE_VAL 1800
+/* スクロール速度（既定~10）。値が小さいと最初の1ノッチが貯まるまで
+ * 待たされ、押下→スクロール開始の遅れとして体感される。上げると即動き出す。
+ * 速すぎ/遅すぎなら 15〜30 の範囲で調整。 */
+#define ZMK_POINTING_DEFAULT_SCRL_VAL 20
 
 #include <dt-bindings/zmk/pointing.h>
 
