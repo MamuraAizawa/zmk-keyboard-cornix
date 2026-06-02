@@ -27,6 +27,18 @@
 
 #include <dt-bindings/zmk/pointing.h>
 
+/* レイヤータップ(&lt)の判定方式を上書き。
+ * hold-preferred: ホールド中に別キーを押した瞬間、即レイヤーに切り替わる。
+ *                 （ロール打ちで誤爆するなら "balanced" に変えると折衷的になる）
+ * tapping-term-ms: この時間ホールドし続けても自動でホールド成立（単独ホールド用）。
+ * quick-tap-ms: タップ直後この時間内に再度押すとタップキーを連射できる(DEL/SPACE長押し用)。
+ */
+&lt {
+    flavor = "hold-preferred";
+    tapping-term-ms = <200>;
+    quick-tap-ms = <175>;
+};
+
 #define WIN_BASE 0
 #define WIN_LOW  1
 #define WIN_RAI  2
