@@ -90,22 +90,24 @@
         /* Ctrl+Q -> Ctrl+Q ;  Ctrl+Shift+Q -> Alt+F4
          * outer: Ctrl detect / inner: Shift detect
          */
-        /* Alt+F4 を「Ctrlを剥がして」送るための strip-morph。
-         * ネストした mod-morph では外側(Ctrl)のmodが消費されず漏れて
-         * Ctrl+Alt+F4 になってしまうため、ここで Ctrl を確実に除去する。
-         * 両bindingとも LA(F4) だが、Ctrl保持時はmorph側(右)が発動し、
-         * keep-mods=0(既定)によりトリガmod=Ctrlがマスクされる。
+        /* Alt+F4 を「Ctrlも Shiftも剥がして」クリーンに送る strip-morph。
+         * mod-morph のマスクは「各段が、自分のトリガmodを、自分が"直接"出す
+         * キーコードに対してだけ」効く。よって外側(Ctrl)・内側(Shift)のマスクは、
+         * 最終キーコードを実際に出すこのノードまで伝播しない（入れ子の罠）。
+         * 対策は単純で、最終出力点であるここで Ctrl・Shift を両方マスクする。
+         * このノードへは必ず Ctrl+Shift 同時押しの経路でしか到達しないので、
+         * morph側(右)が必ず発動し、keep-mods=0(既定)で両modが除去される。
          */
-        af4_noctrl: af4_noctrl {
+        af4_clean: af4_clean {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
             bindings = <&kp LA(F4)>, <&kp LA(F4)>;
-            mods = <(MOD_LCTL|MOD_RCTL)>;
+            mods = <(MOD_LCTL|MOD_RCTL|MOD_LSFT|MOD_RSFT)>;
         };
         mm_win_q_inner: mm_win_q_inner {
             compatible = "zmk,behavior-mod-morph";
             #binding-cells = <0>;
-            bindings = <&kp LC(Q)>, <&af4_noctrl>;
+            bindings = <&kp LC(Q)>, <&af4_clean>;
             mods = <(MOD_LSFT|MOD_RSFT)>;
         };
         mm_win_q: mm_win_q {
