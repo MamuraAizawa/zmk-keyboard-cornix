@@ -420,7 +420,7 @@
 &trans     &kp F1        &kp F2       &kp F3       &kp F4              &trans                            &trans                &trans       &trans       &trans      &trans    &none
 &trans     &kp F5        &kp F6       &kp F7       &kp F8              &trans                            &trans                &trans       &trans       &trans      &trans    &trans
 &trans     &kp F9        &kp F10      &kp F11      &kp F12             &trans           &none   &none    &kp KP_NUMLOCK        &trans       &trans       &trans      &trans    &trans
-&trans     &trans        &to QW_BASE  &to WIN_BASE &to MAC_BASE        &to UB_BASE                       &trans                &trans       &trans       &trans      &trans    &trans
+&trans     &trans        &to QW_BASE  &to WIN_BASE &to MAC_BASE        &to UB_BASE                       &bt BT_SEL 0          &bt BT_SEL 1 &bt BT_SEL 2 &trans      &trans    &trans
             >;
             sensor-bindings = <&inc_dec_kp C_VOL_UP C_VOL_DN &inc_dec_kp PG_UP PG_DN>;
         };
