@@ -13,8 +13,11 @@ manifest:
   projects:
     - name: zmk
       remote: zmkfirmware
-      revision: main
-      clone-depth: 1
+      # Pinned to a specific commit for reproducible builds / to avoid
+      # bleeding-edge `main` regressions. Latest main as of 2026-06-03.
+      # To roll back further, change this SHA. clone-depth intentionally
+      # omitted: shallow clone can't reach a non-tip commit once main advances.
+      revision: 773dec58eaacaef4703b3e4595e50bd71f6cad3d
       import:
         file: app/west.yml
     - name: zmk-helpers
