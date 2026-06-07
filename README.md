@@ -24,22 +24,20 @@ The project includes several specialized shields that provide additional functio
 
 This community firmware has been tested with Cornix using ZMK and provides full split-role configuration, battery power management, and Bluetooth central/peripheral setup per ZMK split guidelines
 
-
 ![image](images/cornix_with_dongle.png)
 ![image](images/cornix_layout.png)
 
 ## warning：device breakdown recovery
 
 the original cornix use flash layout without softdevice
-so in the project. all board use nosd layout as default 
+so in the project. all board use nosd layout as default
 
-if you flash firmware into dongle and found it can't work with the original  firmware 
-you have two solutions 
+if you flash firmware into dongle and found it can't work with the original firmware
+you have two solutions
 
 1. （recommend）flash the sd restore uf2 under boooader direcotry（its for nice nano 2 ，but i think it works for most of nrf52840 device） other boards https://github.com/hitsmaxft/Adafruit_nRF52_Bootloader/actions/runs/18398554358
-2. build your firmware  with snippet  'nrf
-52840-nosd', make zmk ignore soft device 
-
+2. build your firmware with snippet 'nrf
+   52840-nosd', make zmk ignore soft device
 
 ## TODO LIST
 
@@ -50,14 +48,13 @@ you have two solutions
 - [x] upgrade to zephyr4.1 and lvgl9 , since v2.7, no dongle screen support yet
 - [ ] rgb since in future v3
 
-
 ### about RGB
 
 Cornix shield has 2 RGB LEDs on each side, controled by PWM in the stock firmware.
 
 The replacement solution is adapting the RGB indicator module to light up these RGBs, to achieve the same effect as the stock firmware, which uses the RGB LEDs to indicate battery status and connection status.
 
-But it is not supported yet in this repository.  PR is welcome!
+But it is not supported yet in this repository. PR is welcome!
 
 ## Supported Hardware: Cornix Split Keyboard
 
@@ -122,12 +119,12 @@ If you're new to ZMK and don't want to deal with `west.yml` or module management
 
 This section will guide you through building the Cornix ZMK firmware from scratch using the official ZMK firmware development process.
 
-
 ### Prerequisites
 
 Before starting, ensure you have the following:
+
 - A GitHub account
- Git installed on your system
+  Git installed on your system
 - Basic understanding of Git and GitHub
 - Your Cornix keyboard PCBs ready
 
@@ -141,6 +138,7 @@ Before starting, ensure you have the following:
    - Click "Create repository"
 
 2. **Clone your new repository locally**:
+
    ```bash
    git clone https://github.com/YOUR_USERNAME/YOUR_REPO_NAME.git
    cd YOUR_REPO_NAME
@@ -154,6 +152,7 @@ Before starting, ensure you have the following:
    ```
 
 > **Important**: You should thoroughly read the ZMK documentation before proceeding, as ZMK firmware development has a learning curve.
+>
 > - ZMK Customization Guide: https://zmk.dev/docs/customization
 > - ZMK Configuration: https://zmk.dev/docs/user-setup
 
@@ -206,6 +205,7 @@ west update
 Edit the `build.yaml` file, add:
 
 > [!NOTE]
+>
 > 1. If you are using (default) cornix without dongle, choose "cornix_left", "cornix_right" and "reset".
 > 2. If you are using cornix with dongle, choose "cornix_dongle". "cornix_left_for_dongle", "cornix_right" and "reset".
 > 3. Add "cornix_indicator" shield to enable RGB led light. It consumes much more power, use at your own risk.
@@ -248,6 +248,7 @@ Use your preferred method to build
 ### 5. Flash Firmware
 
 Flash the generated `.uf2` files to the corresponding microcontroller:
+
 - Left half: `build/left/zephyr/zmk.uf2`
 - Right half: `build/right/zephyr/zmk.uf2`
 
@@ -260,6 +261,7 @@ For users who want to create their own custom dongle configurations, this reposi
 3. **`cornix_dongle_eyelash`** - This is an example shield for setting up display device for the board (if the board already has `zephyr,display` in the device tree, this display overlay shield is not needed)
 
 The configuration in the `build.yaml` file shows how to use these shields for the eyelash dongle:
+
 ```yaml
 include:
   # Use cornix with dongle
@@ -270,12 +272,14 @@ include:
 ```
 
 To create a custom shield for the display part:
+
 1. The `dongle_display` module is a module contains display widgets, included as part of the project dependencies via west or locally
 2. If you need to create a custom shield for your display hardware, you can create a new shield that provides the appropriate display configuration. Here shows `cornix_dongle_eyelash` as an example
 3. If your board already has `zephyr,display` in the device tree, you can omit the `cornix_dongle_eyelash` shield
 4. Include your custom shield in the build configuration
 
 For custom dongle screens, add a new target in build.yaml for your custom dongle:
+
 ```yaml
 - board: nice_nano
   shield: cornix_dongle_adapter cornix_dongle_eyelash dongle_display
@@ -284,12 +288,14 @@ For custom dongle screens, add a new target in build.yaml for your custom dongle
 ```
 
 To create a custom shield for your display:
+
 1. Use `cornix_dongle_adapter` as the base shield for the matrix and Bluetooth functionality
 2. Add your custom shield in the `build.yaml` file with the appropriate board and configuration
 3. Use `cornix_dongle_eyelash` as an example and modify the display parts to match your custom board
 4. You can copy the `cornix_dongle_eyelash` into your project's `boards/shield/` directory, and use the same name or rename it as a new shield
 
 The configuration in the `west.yml` file remains the same:
+
 ```yaml
 remotes:
   - name: zmkfirmware
@@ -299,6 +305,7 @@ remotes:
   - name: urob
     url-base: https://github.com/urob
 ```
+
 ```yaml
 projects:
   - name: zmk
@@ -325,6 +332,7 @@ If you prefer to build this project locally without adding it as a dependency in
 ### Build Steps
 
 1. **Clone this repository**:
+
    ```bash
    git clone https://github.com/hitsmaxft/zmk-keyboard-cornix.git
    ```
@@ -342,12 +350,26 @@ If you prefer to build this project locally without adding it as a dependency in
 
 3. **Build the firmware**:
    ```bash
-<<<<<<< HEAD
+   <<<<<<< HEAD
    west build -b cornix_main_left
-=======
+   =======
    west build -b cornix_left
->>>>>>> 16dcccb (migrate to zephyr4 , disable dongle screen)
+   >>>>>>> 16dcccb (migrate to zephyr4 , disable dongle screen)
    west build -b cornix_right
    ```
 
 This method allows you to use the Cornix shield without modifying your existing ZMK configuration's west.yaml file.
+
+## 4. **logging**
+
+1. CIをビルド → Actions の成果物に cornix_left_logging.uf2 が増えます
+2. 左半分をブートローダーモードにして cornix_left_logging.uf2 を書き込む
+3. 左半分をUSBでPCに繋ぎっぱなしにする（CDC ACMのCOMポートとして見える）
+4. Windowsのデバイスマネージャーで割り当てられた COM番号 を確認
+5. シリアルターミナルで開く（CDC ACMなのでボーレートは何でもOK）。例:
+   - PuTTY: Connection type = Serial, Serial line = COMx
+   - または pio device monitor -p COMx（PlatformIOがあれば）
+   - またはブラウザの Web Serial（ZMK公式が案内している方法）
+
+6. この状態で接続が切れると、disconnected (reason 0x..)
+   のようなログがリアルタイムで流れます

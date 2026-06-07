@@ -30,6 +30,16 @@ include:
     # shield: cornix_indicator
     artifact-name: cornix_left_default_nosd
 
+  # Debug-only build of the left (central) half with USB serial logging
+  # enabled. Flash this UF2 only when investigating connection drops, then
+  # plug the left half into USB and open a serial monitor to watch BLE
+  # connect/disconnect events. Re-flash cornix_left_default_nosd afterwards.
+  # The zmk-usb-logging snippet just turns on CONFIG_ZMK_USB_LOGGING; the
+  # normal firmware above is untouched.
+  - board: cornix_left
+    snippet: zmk-usb-logging
+    artifact-name: cornix_left_logging
+
   - board: cornix_ph_left
     # shield: cornix_indicator
     artifact-name: cornix_left_for_dongle_nosd
