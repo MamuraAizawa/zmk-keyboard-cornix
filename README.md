@@ -366,10 +366,11 @@ This method allows you to use the Cornix shield without modifying your existing 
 2. 左半分をブートローダーモードにして cornix_left_logging.uf2 を書き込む
 3. 左半分をUSBでPCに繋ぎっぱなしにする（CDC ACMのCOMポートとして見える）
 4. Windowsのデバイスマネージャーで割り当てられた COM番号 を確認
-5. シリアルターミナルで開く（CDC ACMなのでボーレートは何でもOK）。例:
-   - PuTTY: Connection type = Serial, Serial line = COMx
-   - または pio device monitor -p COMx（PlatformIOがあれば）
-   - またはブラウザの Web Serial（ZMK公式が案内している方法）
+5. シリアルターミナルで開く（CDC ACMなのでボーレートは何でもOK）。
+   ↓を開く
+   https://googlechromelabs.github.io/serial-terminal/
+   port という項目からログを見たいデバイスをプルダウンから選択する
+   ターミナルに<Connected>という文字が現れたら接続成功
 
 6. この状態で接続が切れると、disconnected (reason 0x..)
    のようなログがリアルタイムで流れます
